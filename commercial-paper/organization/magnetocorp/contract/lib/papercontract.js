@@ -151,6 +151,25 @@ class CommercialPaperContract extends Contract {
         return paper.toBuffer();
     }
 
+    async query(ctx, issuer, paperNumber) {
+        let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
+        let paper = await ctx.paperList.getPaper(paperKey);
+
+        console.log("---------- paper query ----------");
+        console.log(paper);
+
+        return paper.toBuffer();
+    }
+
+    async create(ctx, patientStr) {
+        let patient = JSON.parse(patientStr);
+        let paper = CommercialPaper.createInstance(patient);
+        paper.setIssued();
+        paper.setOwner(patient.issuer);
+        await ctx.paperList.addPaper(paper);
+        return paper.toBuffer();
+    }
+
 }
 
 module.exports = CommercialPaperContract;
