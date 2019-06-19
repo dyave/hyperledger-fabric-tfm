@@ -21,7 +21,7 @@ const cpState = {
 class CommercialPaper extends State {
 
     constructor(obj) {
-        super(CommercialPaper.getClass(), [obj.issuer, obj.paperNumber]);
+        super(CommercialPaper.getClass(), [obj.doctor, obj.checkId]);
         Object.assign(this, obj);
     }
 
@@ -90,8 +90,8 @@ class CommercialPaper extends State {
     /**
      * Factory method to create a commercial paper object
      */
-    static createInstance(patient) {
-        return new CommercialPaper(patient);
+    static createInstance(patientCheck) {
+        return new CommercialPaper(patientCheck);
     }
 
     static getClass() {

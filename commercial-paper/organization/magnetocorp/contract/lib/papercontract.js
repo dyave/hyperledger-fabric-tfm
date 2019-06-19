@@ -161,11 +161,11 @@ class CommercialPaperContract extends Contract {
         return paper.toBuffer();
     }
 
-    async create(ctx, patientStr) {
-        let patient = JSON.parse(patientStr);
-        let paper = CommercialPaper.createInstance(patient);
+    async create(ctx, patientCheckStr) {
+        let patientCheck = JSON.parse(patientCheckStr);
+        let paper = CommercialPaper.createInstance(patientCheck);
         paper.setIssued();
-        paper.setOwner(patient.issuer);
+        paper.setOwner(patientCheck.doctor);
         await ctx.paperList.addPaper(paper);
         return paper.toBuffer();
     }
