@@ -151,54 +151,6 @@ class CommercialPaperContract extends Contract {
         return paper.toBuffer();
     }
 
-    async query(ctx, issuer, paperNumber) {
-        let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
-        let paper = await ctx.paperList.getPaper(paperKey);
-
-        console.log("---------- paper query ----------");
-        console.log(paper);
-
-        return paper.toBuffer();
-    }
-
-    async create(ctx, patientCheckStr) {
-        let patientCheck = JSON.parse(patientCheckStr);
-        let paper = CommercialPaper.createInstance(patientCheck);
-        paper.setIssued();
-        paper.setOwner(patientCheck.doctor);
-        await ctx.paperList.addPaper(paper);
-        return paper.toBuffer();
-    }
-
-    async update(ctx, patientCheckStr) {
-        let patientCheck = JSON.parse(patientCheckStr);
-        let paperKey = CommercialPaper.makeKey([patientCheck.doctor, patientCheck.checkId]);
-        let paper = await ctx.paperList.getPaper(paperKey);
-
-        // if (paper.getOwner() !== currentOwner) {
-        //     throw new Error('Paper ' + issuer + paperNumber + ' is not owned by ' + currentOwner);
-        // }
-        if (paper.isIssued()) {
-            paper.setTrading();
-        }
-
-        // if (paper.isTrading()) {
-        //     paper.setOwner(newOwner);
-        // } else {
-        //     throw new Error('Paper ' + issuer + paperNumber + ' is not trading. Current state = ' +paper.getCurrentState());
-        // }
-
-        await ctx.paperList.updatePaper(paper);
-        return paper.toBuffer();
-    }
-
-    // async queryHistory(ctx, issuer, paperNumber) {
-    //     let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
-    //     let paperHistory = await ctx.paperList.getPaperHistory(paperKey);
-
-    //     return paperHistory.toBuffer();
-    // }
-
 }
 
 module.exports = CommercialPaperContract;
