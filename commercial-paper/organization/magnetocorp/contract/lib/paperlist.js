@@ -27,6 +27,11 @@ class PaperList extends StateList {
     async updatePaper(paper) {
         return this.updateState(paper);
     }
+
+    // async getPaperHistory(paperKey) {
+    //     return this.getStateHistory(paperKey);
+    // }
+
 }
 
 

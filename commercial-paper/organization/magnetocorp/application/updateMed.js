@@ -32,29 +32,22 @@ async function main() {
       wallet: wallet,
       discovery: { enabled:false, asLocalhost: true }
     };
-
-    console.log('Connect to Fabric gateway.');
     await gateway.connect(connectionProfile, connectionOptions);
-
-    console.log('Use network channel: mychannel.');
     const network = await gateway.getNetwork('mychannel');
-
-    console.log('Use org.papernet.commercialpaper smart contract.');
     const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
  
-    //let transaction = 'issue';
-    let transaction = 'query';
-    //let transaction = 'create';
-    
+    let transaction = 'update';
+    let doctor = 'Garcia';
+    let checkId = '001';
+
     let person = {
-      name: 'Juan',
+      name: 'Felipe',
       lastName: 'Perez',
       birthDate: '1992-06-08',
       ethnicity: 'white',
       gender: 'male',
       deathDate: '',
     };
-
     let drugExposure = {
       drugName: 'Amoxicillin',
       startDate: '2019-06-18',
@@ -63,10 +56,6 @@ async function main() {
       quantity: 5,
       diagnosis: 'Patient was diagnosed with xxx desease.'
     };
-
-    let doctor = 'Garcia';
-    let checkId = '001';
-
     const patientCheck = {
       doctor,
       checkId,
@@ -75,40 +64,25 @@ async function main() {
       drugExposure
     };
 
-    if (transaction == 'create') {
-      console.log('Submitting medical check');
-      const response = await contract.submitTransaction(transaction, JSON.stringify(patientCheck));
-      let med = CommercialPaper.fromBuffer(response);
-      
-      console.log(med.doctor);
-      console.log(med.checkId);
-      console.log(med.date);
-      console.log(`${med.person.name} ${med.person.lastName}, ${med.person.gender}`);
-      console.log(`${med.drugExposure.drugName}, ${med.drugExposure.quantity} units`);
-    }
-
-    if (transaction == 'query') {
-      const result = await contract.evaluateTransaction(transaction, doctor, checkId);
-      let med = CommercialPaper.fromBuffer(result);
-
-      console.log(med.doctor);
-      console.log(med.checkId);
-      console.log(med.date);
-      console.log(`${med.person.name} ${med.person.lastName}, ${med.person.gender}`);
-      console.log(`${med.drugExposure.drugName}, ${med.drugExposure.quantity} units`);
-    }
+    const response = await contract.submitTransaction(transaction, JSON.stringify(patientCheck));
+    let med = CommercialPaper.fromBuffer(response);
+    
+    console.log(med.doctor);
+    console.log(med.checkId);
+    console.log(med.date);
+    console.log(`${med.person.name} ${med.person.lastName}, ${med.person.gender}`);
+    console.log(`${med.drugExposure.drugName}, ${med.drugExposure.quantity} units`);
 
   } catch (error) {
     console.log(`Error processing transaction. ${error}`);
     console.log(error.stack);
   } finally {
-    console.log('Disconnect from Fabric gateway.')
     gateway.disconnect();
   }
 }
 
 main().then(() => {
-  console.log('Issue program complete.');
+  //console.log('Issue program complete.');
 }).catch((e) => {
   console.log('Issue program exception.');
   console.log(e);
