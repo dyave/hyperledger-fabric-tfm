@@ -114,6 +114,9 @@ class CommercialPaperContract extends Contract {
             throw new Error('Paper ' + issuer + paperNumber + ' is not trading. Current state = ' +paper.getCurrentState());
         }
 
+        // Probando de que actualiza el faceValue (en el ejemplo price es un nuevo campo).
+        paper.setFaceValue(price);
+
         // Update the paper
         await ctx.paperList.updatePaper(paper);
         return paper.toBuffer();
@@ -148,6 +151,13 @@ class CommercialPaperContract extends Contract {
         }
 
         await ctx.paperList.updatePaper(paper);
+        return paper.toBuffer();
+    }
+
+    async query(ctx, issuer, paperNumber) {
+        let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
+        let paper = await ctx.paperList.getPaper(paperKey);
+
         return paper.toBuffer();
     }
 

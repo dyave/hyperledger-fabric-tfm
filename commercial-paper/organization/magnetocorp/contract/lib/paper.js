@@ -44,6 +44,14 @@ class CommercialPaper extends State {
         this.owner = newOwner;
     }
 
+    getFaceValue() {
+        return this.faceValue;
+    }
+
+    setFaceValue(newFaceValue) {
+        this.faceValue = newFaceValue;
+    }
+
     /**
      * Useful methods to encapsulate commercial paper states
      */
