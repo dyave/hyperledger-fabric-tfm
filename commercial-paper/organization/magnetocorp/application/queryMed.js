@@ -43,11 +43,15 @@ async function main() {
     const response = await contract.evaluateTransaction(transaction, doctor, checkId);
     let med = CommercialPaper.fromBuffer(response);
 
-    console.log(med.doctor);
-    console.log(med.checkId);
-    console.log(med.date);
-    console.log(`${med.person.name} ${med.person.lastName}, ${med.person.gender}`);
-    console.log(`${med.drugExposure.drugName}, ${med.drugExposure.quantity} units`);
+
+    console.log('---');
+    console.log(` doctor: ${med.doctor}`);
+    console.log(` checkId: ${med.checkId}`);
+    console.log(` patien name: ${med.person.name}`);
+    console.log(` patien lastname: ${med.person.lastName}`);
+    console.log(` patien gender: ${med.person.gender}`);
+    console.log(` drug name: ${med.drugExposure.drugName}`);
+    console.log(` drug quantity: ${med.drugExposure.quantity} units`);
 
   } catch (error) {
     console.log(`Error processing transaction. ${error}`);

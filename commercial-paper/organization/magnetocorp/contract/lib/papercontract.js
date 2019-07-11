@@ -161,6 +161,52 @@ class CommercialPaperContract extends Contract {
         return paper.toBuffer();
     }
 
+    async create(ctx, doctor, checkId, personStr, drugExposureStr) {
+        let person = JSON.parse(personStr);
+        let drugExposure = JSON.parse(drugExposureStr);
+
+        let med = CommercialPaper.createInstance(doctor, checkId, person, drugExposure);
+        med.setIssued();
+        med.setOwner(doctor);
+
+        await ctx.paperList.addPaper(med);
+
+        return med.toBuffer();
+    }
+
+    async update(ctx, doctor, checkId, personStr, drugExposureStr) {
+        let person = JSON.parse(personStr);
+        let drugExposure = JSON.parse(drugExposureStr);
+
+        let paperKey = CommercialPaper.makeKey([doctor, checkId]);
+        let paper = await ctx.paperList.getPaper(paperKey);
+
+        // if (paper.getOwner() !== currentOwner) {
+        //     throw new Error('Paper ' + issuer + paperNumber + ' is not owned by ' + currentOwner);
+        // }
+        if (paper.isIssued()) {
+            paper.setTrading();
+        }
+        // if (paper.isTrading()) {
+        //     paper.setOwner(newOwner);
+        // } else {
+        //     throw new Error('Paper ' + issuer + paperNumber + ' is not trading. Current state = ' +paper.getCurrentState());
+        // }
+
+        paper.setPerson(person);
+        paper.setDrugExposure(drugExposure);
+
+        await ctx.paperList.updatePaper(paper);
+        return paper.toBuffer();
+    }
+
+    // async queryHistory(ctx, issuer, paperNumber) {
+    //     let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
+    //     let paperHistory = await ctx.paperList.getPaperHistory(paperKey);
+
+    //     return paperHistory.toBuffer();
+    // }
+
 }
 
 module.exports = CommercialPaperContract;

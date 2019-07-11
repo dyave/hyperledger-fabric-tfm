@@ -14,28 +14,57 @@ SPDX-License-Identifier: Apache-2.0
 
 'use strict';
 
+// Bring key classes into scope, most importantly Fabric SDK network class
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
 const CommercialPaper = require('../contract/lib/paper.js');
 
-const wallet = new FileSystemWallet('../identity/user/isabella/wallet');
+// A wallet stores a collection of identities for use
+const wallet = new FileSystemWallet('../identity/user/balaji/wallet');
 
+// Main program function
 async function main() {
+
+  // A gateway defines the peers used to access Fabric networks
   const gateway = new Gateway();
 
+  // Main try/catch block
   try {
-    const userName = 'User1@org1.example.com';
+
+    // Specify userName for network access
+    // const userName = 'isabella.issuer@magnetocorp.com';
+    const userName = 'Admin@org1.example.com';
+
+    // Load connection profile; will be used to locate a gateway
     let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/networkConnection.yaml', 'utf8'));
+
+    // Set connection options; identity and wallet
     let connectionOptions = {
       identity: userName,
       wallet: wallet,
       discovery: { enabled:false, asLocalhost: true }
+
     };
+
+    // Connect to gateway using application specified parameters
+    //console.log('Connect to Fabric gateway.');
+
     await gateway.connect(connectionProfile, connectionOptions);
+
+    // Access PaperNet network
+    //console.log('Use network channel: mychannel.');
+
     const network = await gateway.getNetwork('mychannel');
+
+    // Get addressability to commercial paper contract
+    //console.log('Use org.papernet.commercialpaper smart contract.');
+
     const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
- 
+
+    // buy commercial paper
+    //console.log('Submit commercial paper buy transaction.');
+
     let transaction = 'update';
     let doctor = 'Garcia';
     let checkId = '001';
@@ -53,7 +82,7 @@ async function main() {
       startDate: '2019-06-18',
       endDate: '2019-06-22',
       dosis: 'Dosis description.',
-      quantity: 5,
+      quantity: 12,
       diagnosis: 'Patient was diagnosed with xxx desease.'
     };
     const patientCheck = {
@@ -64,6 +93,7 @@ async function main() {
       drugExposure
     };
 
+
     const response = await contract.submitTransaction(transaction, doctor, checkId, JSON.stringify(person), JSON.stringify(drugExposure));
     let med = CommercialPaper.fromBuffer(response);
     
@@ -73,18 +103,21 @@ async function main() {
     console.log(`${med.person.name} ${med.person.lastName}, ${med.person.gender}`);
     console.log(`${med.drugExposure.drugName}, ${med.drugExposure.quantity} units`);
 
+
   } catch (error) {
+
     console.log(`Error processing transaction. ${error}`);
     console.log(error.stack);
+
   } finally {
     gateway.disconnect();
   }
 }
 
 main().then(() => {
-  //console.log('Issue program complete.');
+  //console.log('Buy program complete.');
 }).catch((e) => {
-  console.log('Issue program exception.');
+  console.log('Buy program exception.');
   console.log(e);
   console.log(e.stack);
   process.exit(-1);

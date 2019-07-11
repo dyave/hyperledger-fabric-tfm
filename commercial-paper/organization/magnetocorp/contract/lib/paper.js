@@ -21,7 +21,7 @@ const cpState = {
 class CommercialPaper extends State {
 
     constructor(obj) {
-        super(CommercialPaper.getClass(), [obj.issuer, obj.paperNumber]);
+        super(CommercialPaper.getClass(), [obj.doctor, obj.checkId]);
         Object.assign(this, obj);
     }
 
@@ -44,12 +44,28 @@ class CommercialPaper extends State {
         this.owner = newOwner;
     }
 
-    getFaceValue() {
-        return this.faceValue;
+    // getFaceValue() {
+    //     return this.faceValue;
+    // }
+
+    // setFaceValue(newFaceValue) {
+    //     this.faceValue = newFaceValue;
+    // }
+
+    getPerson() {
+        return this.person;
     }
 
-    setFaceValue(newFaceValue) {
-        this.faceValue = newFaceValue;
+    setPerson(personData) {
+        this.person = personData;
+    }
+
+    getDrugExposure() {
+        return this.drugExposure;
+    }
+
+    setDrugExposure(drugData) {
+        this.drugExposure = drugData;
     }
 
     /**
@@ -98,8 +114,8 @@ class CommercialPaper extends State {
     /**
      * Factory method to create a commercial paper object
      */
-    static createInstance(issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
-        return new CommercialPaper({ issuer, paperNumber, issueDateTime, maturityDateTime, faceValue });
+    static createInstance(doctor, checkId, person, drugExposure) {
+        return new CommercialPaper({ doctor, checkId, person, drugExposure });
     }
 
     static getClass() {

@@ -64,12 +64,12 @@ async function main() {
       drugExposure
     };
 
-    const response = await contract.submitTransaction(transaction, JSON.stringify(patientCheck));
+    const response = await contract.submitTransaction(transaction, doctor, checkId, JSON.stringify(person), JSON.stringify(drugExposure));
     let med = CommercialPaper.fromBuffer(response);
     
     console.log(med.doctor);
     console.log(med.checkId);
-    console.log(med.date);
+    //console.log(med.date);
     console.log(`${med.person.name} ${med.person.lastName}, ${med.person.gender}`);
     console.log(`${med.drugExposure.drugName}, ${med.drugExposure.quantity} units`);
 
