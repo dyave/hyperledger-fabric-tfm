@@ -47,11 +47,17 @@ async function main() {
     console.log('---');
     console.log(` doctor: ${med.doctor}`);
     console.log(` checkId: ${med.checkId}`);
-    console.log(` patien name: ${med.person.name}`);
-    console.log(` patien lastname: ${med.person.lastName}`);
-    console.log(` patien gender: ${med.person.gender}`);
+    console.log(` patient name: ${med.person.name}`);
+    console.log(` patient lastname: ${med.person.lastName}`);
+    console.log(` patient date of birth: ${med.person.birthDate}`);
+    console.log(` patient gender: ${med.person.gender}`);
+    console.log(` patient date of birth: ${med.person.deathDate}`);
     console.log(` drug name: ${med.drugExposure.drugName}`);
+    console.log(` drug start date: ${med.drugExposure.startDate}`);
+    console.log(` drug end date: ${med.drugExposure.endDate}`);
+    console.log(` drug dosis: ${med.drugExposure.dosis}`);
     console.log(` drug quantity: ${med.drugExposure.quantity} units`);
+    console.log(` diagnosis: ${med.drugExposure.diagnosis}`);
 
   } catch (error) {
     console.log(`Error processing transaction. ${error}`);

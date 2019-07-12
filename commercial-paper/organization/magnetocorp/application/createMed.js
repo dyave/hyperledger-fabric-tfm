@@ -49,12 +49,12 @@ async function main() {
       deathDate: '',
     };
     let drugExposure = {
-      drugName: 'Amoxicillin',
+      drugName: 'Hydrocodone',
       startDate: '2019-06-18',
       endDate: '2019-06-22',
-      dosis: 'Dosis description.',
-      quantity: 5,
-      diagnosis: 'Patient was diagnosed with xxx desease.'
+      dosis: '2 pills per day',
+      quantity: 20,
+      diagnosis: 'Injured muscles from the back due to a car crash.'
     };
     const patientCheck = {
       doctor,
