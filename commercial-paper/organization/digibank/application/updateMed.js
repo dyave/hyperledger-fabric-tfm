@@ -70,7 +70,7 @@ async function main() {
     let checkId = '001';
 
     let person = {
-      name: 'Felipe',
+      name: 'Juan Andres',
       lastName: 'Perez',
       birthDate: '1992-06-08',
       ethnicity: 'white',
@@ -78,12 +78,12 @@ async function main() {
       deathDate: '',
     };
     let drugExposure = {
-      drugName: 'Amoxicillin',
+      drugName: 'Hydrocodone',
       startDate: '2019-06-18',
       endDate: '2019-06-22',
-      dosis: 'Dosis description.',
+      dosis: '1 pill per day (reduced due to suspected drug abuse)',
       quantity: 12,
-      diagnosis: 'Patient was diagnosed with xxx desease.'
+      diagnosis: 'Injured muscles from the back due to a car crash.'
     };
     const patientCheck = {
       doctor,
